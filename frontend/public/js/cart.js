@@ -122,20 +122,23 @@ cartProductRoute()
 
 
 
+
 function updateCartTotals() {
     const userId = localStorage.getItem('userId');
     const subtotalElement = document.getElementById("subtotal");
     const totalElement = document.getElementById("cart-total");
     const fastCargoCheckbox = document.getElementById("fast-cargo");
 
+    // If userId is not available, set totals to 0 and log a warning
     if (!userId) {
-        console.error("User ID not available.");
+        console.warn("User ID not available. Displaying totals as 0.");
+        subtotalElement.textContent = `$0.00`;
+        totalElement.textContent = `$0.00`;
         return;
     }
 
-    
     getCartFromBackend(userId).then(cartItems => {
-        console.log("Cart Items:", cartItems); 
+        console.log("Cart Items:", cartItems);
 
         const productPromises = cartItems.map(item =>
             getProductById(item.productId).then(product => {
@@ -143,20 +146,19 @@ function updateCartTotals() {
                     console.warn(`Missing quantity for productId: ${item.productId}`);
                 }
                 if (product) {
-                    console.log(`Product Found for ID ${item.productId}:`, product); 
+                    console.log(`Product Found for ID ${item.productId}:`, product);
                     if (!product.price || product.price.newPrice === undefined) {
                         console.error(`Product price missing for ID ${item.productId}:`, product);
                         return 0; 
                     }
                     return product.price.newPrice * (item.quantity || 1); 
                 } else {
-                    console.warn(`Product not found for ID: ${item.productId}`); 
+                    console.warn(`Product not found for ID: ${item.productId}`);
                     return 0;
                 }
             })
         );
 
-        
         Promise.all(productPromises).then(prices => {
             console.log("Individual Product Prices:", prices); 
             const subtotal = prices.reduce((sum, price) => sum + price, 0);
@@ -169,16 +171,10 @@ function updateCartTotals() {
             const total = subtotal + shippingCost;
 
             subtotalElement.textContent = `$${subtotal.toFixed(2)}`;
-
             totalElement.textContent = `$${total.toFixed(2)}`;
 
             console.log("Updated Subtotal Element:", subtotalElement.textContent); 
-
-
             console.log("Updated Total Element:", totalElement.textContent); 
-
-
-
         }).catch(error => {
             console.error("Error calculating prices:", error); 
         });
