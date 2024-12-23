@@ -1,0 +1,58 @@
+/* Style the product list to show multiple items in a row */
+.product-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px; /* Adjust spacing between cards */
+    justify-content: space-between; /* Spread cards across the row */
+    padding: 0;
+    list-style: none;
+    margin: 0;
+  }
+  
+  /* Style for individual product items */
+  .product-item {
+    flex: 1 1 calc(25% - 20px); /* Adjust for 4 items per row; subtract spacing */
+    max-width: calc(25% - 20px); /* Ensure consistent sizing */
+    box-sizing: border-box;
+  }
+  
+  /* Style for product cards */
+  .product-card {
+    background-color: #fff;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    padding: 10px;
+    text-align: center;
+    font-size: 0.9rem;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  }
+  
+  /* Ensure images are responsive */
+  .product-card img {
+    width: 100%;
+    object-fit: cover;
+    margin-bottom: 10px;
+  }
+  
+  /* Product stars styling */
+  .product-stars {
+    display: flex;
+    justify-content: center;
+    padding: 0;
+    margin: 5px 0;
+    list-style: none;
+  }
+  
+  .product-stars li {
+    margin: 0 2px;
+    font-size: 1rem;
+    color: #ffcc00; /* Adjust for your theme */
+  }
+  
+/* Style for the logo image */
+.logo-image {
+  width: 180px; /* Adjust size for better visibility */
+  height: auto; /* Maintain aspect ratio */
+  display: block; /* Prevent inline alignment issues */
+}
+
